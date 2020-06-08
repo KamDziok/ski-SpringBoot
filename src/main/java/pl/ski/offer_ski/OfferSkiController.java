@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RestController
-@RequestMapping("api/offerSki")
+@RequestMapping("api/offer-ski")
 @CrossOrigin
 
 public class OfferSkiController {
