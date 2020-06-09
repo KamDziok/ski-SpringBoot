@@ -14,9 +14,18 @@ public class UserController {
     @Autowired
     private UserRepository userRepository;
 
+    public void setUserRepository(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
+
     @GetMapping
-    private List<User> getAllUser(){
+    List<User> getAllUser(){
         return (List<User>) userRepository.findAll();
+    }
+
+    @GetMapping("/{email}/{password}")
+    User getUser(@PathVariable("email") String eMaile, @PathVariable("password") String password){
+        return userRepository.findByEMailAndPassword(eMaile, password);
     }
 
     @PostMapping

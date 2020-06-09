@@ -3,7 +3,10 @@ package pl.ski.offer_ski;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -17,6 +20,11 @@ public class OfferSkiController {
     @GetMapping
     private List<OfferSki> getAllOfferSki(){
         return (List<OfferSki>) offerSkiRepository.findAll();
+    }
+
+    @GetMapping("/{city}/{date}")
+    private List<OfferSki> getOfferSkiInCity(@PathVariable String city, @PathVariable String date) throws ParseException {
+        return (List<OfferSki>) offerSkiRepository.findAllByCityAndStartOfferLessThanAndStopOfferGreaterThan(city, (Date) new SimpleDateFormat("dd-MM-yyyy").parse(date));
     }
 
     @PostMapping

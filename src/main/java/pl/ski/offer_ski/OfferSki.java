@@ -19,6 +19,9 @@ public class OfferSki {
     private Long id;
 
     @NotNull
+    private String city;
+
+    @NotNull
     private Date startOffer;
 
     private Date stopOffer;
@@ -38,14 +41,16 @@ public class OfferSki {
     public OfferSki() {
     }
 
-    public OfferSki(@NotNull Date startOffer, @NotNull Company company, @NotNull Price price, @NotNull Ski ski) {
+    public OfferSki(@NotNull String city, @NotNull Date startOffer, @NotNull Company company, @NotNull Price price, @NotNull Ski ski) {
+        this.city = city;
         this.startOffer = startOffer;
         this.company = company;
         this.price = price;
         this.ski = ski;
     }
 
-    public OfferSki(@NotNull Date startOffer, Date stopOffer, @NotNull Company company, @NotNull Price price, @NotNull Ski ski) {
+    public OfferSki(@NotNull String city, @NotNull Date startOffer, Date stopOffer, @NotNull Company company, @NotNull Price price, @NotNull Ski ski) {
+        this.city = city;
         this.startOffer = startOffer;
         this.stopOffer = stopOffer;
         this.company = company;
@@ -59,6 +64,14 @@ public class OfferSki {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
     }
 
     public Date getStartOffer() {

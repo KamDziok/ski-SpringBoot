@@ -1,6 +1,7 @@
 package pl.ski.notification_user;
 
 import pl.ski.company.Company;
+import pl.ski.static_values.Permission;
 import pl.ski.user.User;
 
 import javax.persistence.Entity;
@@ -34,6 +35,13 @@ public class NotificationUser {
         this.description = description;
         this.user = user;
         this.company = company;
+    }
+
+    public boolean checkUser(){
+        if(this.user.getPermissions() == Permission.user){
+            return true;
+        }
+        return false;
     }
 
     public Long getId() {

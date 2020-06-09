@@ -19,6 +19,7 @@ public class Company {
     @NotNull
     private String name;
 
+    @NotNull
     private Boolean active;
 
     private String description;
@@ -29,11 +30,12 @@ public class Company {
     public Company() {
     }
 
-    public Company(@NotNull String name) {
+    public Company(@NotNull String name, @NotNull Boolean active) {
         this.name = name;
+        this.active = active;
     }
 
-    public Company(@NotNull String name, Boolean active, String description) {
+    public Company(@NotNull String name, @NotNull Boolean active, String description) {
         this.name = name;
         this.active = active;
         this.description = description;
