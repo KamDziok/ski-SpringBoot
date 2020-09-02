@@ -11,7 +11,7 @@ import pl.ski.management_file.ManagementFile;
 public class SkiApplication {
 
 	public static void main(String[] args) {
-		ManagementFile.runServerPHP();
+        ManagementFile.runServerPHP();
 		SpringApplication.run(SkiApplication.class, args);
 	}
 

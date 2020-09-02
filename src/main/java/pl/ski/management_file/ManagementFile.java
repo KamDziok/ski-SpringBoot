@@ -11,15 +11,15 @@ import java.nio.file.Files;
 public class ManagementFile {
 
     private static String addToPath(String path, String upDirectory){
-        return path + "/" + upDirectory;
+        return path + "\\" + upDirectory;
     }
 
     private static String fullPathFile(String path, String nameFile, String extensionFile) {
-        return path + "/" + nameFile + "." + extensionFile;
+        return path + "\\" + nameFile + "." + extensionFile;
     }
 
     private static String fullPathDirectory(String path, String nameDirectory) {
-        return path + "/" + nameDirectory;
+        return path + "\\" + nameDirectory;
     }
 
     private static boolean isDirectory(String path, String nameDirectory){
@@ -69,6 +69,7 @@ public class ManagementFile {
     private static boolean runFileBAT(String path,String nameFile, String extensionFile){
         try {
             ProcessBuilder processBuilder = new ProcessBuilder(fullPathFile(path, nameFile, extensionFile));
+            processBuilder.start();
             return true;
         } catch (Exception e) {
             e.printStackTrace();
