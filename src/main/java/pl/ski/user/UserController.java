@@ -23,9 +23,29 @@ public class UserController {
         return (List<User>) userRepository.findAll();
     }
 
-    @GetMapping("/{email}/{password}")
-    User getUser(@PathVariable("email") String eMaile, @PathVariable("password") String password){
-        return userRepository.findByEMailAndPassword(eMaile, password);
+    @GetMapping("/user/{id}")
+    List<User> getAllUserWithOutCurrentUser(@PathVariable("id") Long id){
+        List<User> userListAll = (List<User>) userRepository.findAll();
+        List<User> result = new ArrayList<>();
+        userListAll.forEach(user -> {
+            if(user.getId().intValue() != id.intValue()){
+                result.add(user);
+            }
+        });
+        return result;
+    }
+
+    @GetMapping("/email/{email}/password/{password}")
+    User getUserByeMailAndPassword(@PathVariable("email") String eMaile, @PathVariable("password") String password){
+        return userRepository.findByeMailAndPassword(eMaile, password);
+    }
+
+    @GetMapping("/email/{email}")
+    Boolean isUserByEMail(@PathVariable("email") String eMaile){
+        if(!userRepository.findByeMail(eMaile).equals(null)) {
+            return true;
+        }
+        return false;
     }
 
     @PostMapping

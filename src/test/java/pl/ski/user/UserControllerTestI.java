@@ -50,9 +50,9 @@ public class UserControllerTestI {
         UserController userController = new UserController();
         userController.setUserRepository(userRepository);
 
-        when(userRepository.findByEMailAndPassword("test@1", "123")).thenReturn(user);
+        when(userRepository.findByeMailAndPassword("test@1", "123")).thenReturn(user);
 
-        User user1 = userController.getUser("test@1", "123");
+        User user1 = userController.getUserByeMailAndPassword("test@1", "123");
 
         assertEquals(user1, user);
     }
@@ -65,9 +65,9 @@ public class UserControllerTestI {
         UserController userController = new UserController();
         userController.setUserRepository(userRepository);
 
-        when(userRepository.findByEMailAndPassword("test@1", "123")).thenReturn(user);
+        when(userRepository.findByeMailAndPassword("test@1", "123")).thenReturn(user);
 
-        User user1 = userController.getUser("test@1", "123456");
+        User user1 = userController.getUserByeMailAndPassword("test@1", "123456");
 
         assertEquals(user1, null);
     }
@@ -80,9 +80,9 @@ public class UserControllerTestI {
         UserController userController = new UserController();
         userController.setUserRepository(userRepository);
 
-        when(userRepository.findByEMailAndPassword("test@1", "123")).thenReturn(user);
+        when(userRepository.findByeMailAndPassword("test@1", "123")).thenReturn(user);
 
-        User user1 = userController.getUser("test1", "123");
+        User user1 = userController.getUserByeMailAndPassword("test1", "123");
 
         assertEquals(user1, null);
     }
@@ -95,9 +95,9 @@ public class UserControllerTestI {
         UserController userController = new UserController();
         userController.setUserRepository(userRepository);
 
-        when(userRepository.findByEMailAndPassword("test@1", "123")).thenReturn(user);
+        when(userRepository.findByeMailAndPassword("test@1", "123")).thenReturn(user);
 
-        User user1 = userController.getUser("test1", "123456");
+        User user1 = userController.getUserByeMailAndPassword("test1", "123456");
 
         assertEquals(user1, null);
     }

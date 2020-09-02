@@ -23,6 +23,18 @@ public class TransactionController {
         return (List<Transaction>) transactionRepository.findAll();
     }
 
+    @GetMapping("/user/{id}")
+    private List<Transaction> getAllUserTransaction(@PathVariable Long id){
+        List<Transaction> transactionList = (List<Transaction>) transactionRepository.findAll();
+        List<Transaction> result = new ArrayList<>();
+        transactionList.forEach(transaction -> {
+            if(transaction.getUser().getId().intValue() == id.intValue()){
+                result.add(transaction);
+            }
+        });
+        return result;
+    }
+
     @PostMapping
     private Transaction addTransaction(@RequestBody Transaction transaction){
         return transactionRepository.save(transaction);

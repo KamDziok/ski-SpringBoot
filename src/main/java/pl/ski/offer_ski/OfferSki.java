@@ -27,6 +27,9 @@ public class OfferSki {
     private Date stopOffer;
 
     @NotNull
+    private int quantity;
+
+    @NotNull
     @ManyToOne
     private Company company;
 
@@ -41,18 +44,20 @@ public class OfferSki {
     public OfferSki() {
     }
 
-    public OfferSki(@NotNull String city, @NotNull Date startOffer, @NotNull Company company, @NotNull Price price, @NotNull Ski ski) {
+    public OfferSki(@NotNull String city, @NotNull Date startOffer, @NotNull int quantity, @NotNull Company company, @NotNull Price price, @NotNull Ski ski) {
         this.city = city;
         this.startOffer = startOffer;
+        this.quantity = quantity;
         this.company = company;
         this.price = price;
         this.ski = ski;
     }
 
-    public OfferSki(@NotNull String city, @NotNull Date startOffer, Date stopOffer, @NotNull Company company, @NotNull Price price, @NotNull Ski ski) {
+    public OfferSki(@NotNull String city, @NotNull Date startOffer, Date stopOffer, @NotNull int quantity, @NotNull Company company, @NotNull Price price, @NotNull Ski ski) {
         this.city = city;
         this.startOffer = startOffer;
         this.stopOffer = stopOffer;
+        this.quantity = quantity;
         this.company = company;
         this.price = price;
         this.ski = ski;
@@ -88,6 +93,14 @@ public class OfferSki {
 
     public void setStopOffer(Date stopOffer) {
         this.stopOffer = stopOffer;
+    }
+
+    public int getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
     }
 
     public Company getCompany() {

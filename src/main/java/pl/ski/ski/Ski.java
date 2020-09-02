@@ -15,9 +15,9 @@ public class Ski {
     @NotNull
     private String name;
 
-    private Integer lenght;
+    private Integer lengthSki;
 
-    private Integer type;
+    private String type;
 
     @NotNull
     @ManyToOne
@@ -31,9 +31,9 @@ public class Ski {
         this.producer = producer;
     }
 
-    public Ski(@NotNull String name, Integer lenght, Integer type, @NotNull Producer producer) {
+    public Ski(@NotNull String name, Integer lengthSki, String type, @NotNull Producer producer) {
         this.name = name;
-        this.lenght = lenght;
+        this.lengthSki = lengthSki;
         this.type = type;
         this.producer = producer;
     }
@@ -54,19 +54,19 @@ public class Ski {
         this.name = name;
     }
 
-    public Integer getLenght() {
-        return lenght;
+    public Integer getLengthSki() {
+        return lengthSki;
     }
 
-    public void setLenght(Integer lenght) {
-        this.lenght = lenght;
+    public void setLengthSki(Integer lengthSki) {
+        this.lengthSki = lengthSki;
     }
 
-    public Integer getType() {
+    public String getType() {
         return type;
     }
 
-    public void setType(Integer type) {
+    public void setType(String type) {
         this.type = type;
     }
 
