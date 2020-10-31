@@ -1,6 +1,7 @@
 package pl.ski.user;
 
 import org.junit.jupiter.api.Test;
+import pl.ski.dataBase.DataBaseUser;
 import pl.ski.static_values.Permission;
 
 import java.util.ArrayList;
@@ -15,17 +16,18 @@ import static org.mockito.Mockito.when;
 public class UserControllerTestI {
 
     private List<User> prepareUserData() {
-        User user1 = new User("test", "pierwszy", "test@1", "123", Permission.user);
-        user1.setId((long) 1);
-        User user2 = new User("test", "drugi", "test@2", "123", Permission.user);
-        user2.setId((long) 2);
-
-        List<User> userList = new ArrayList<>();
-
-        userList.add(user1);
-        userList.add(user2);
-
-        return userList;
+//        User user1 = new User("test", "pierwszy", "test@1", "123", Permission.user);
+//        user1.setId((long) 1);
+//        User user2 = new User("test", "drugi", "test@2", "123", Permission.user);
+//        user2.setId((long) 2);
+//
+//        List<User> userList = new ArrayList<>();
+//
+//        userList.add(user1);
+//        userList.add(user2);
+//
+//        return userList;
+        return DataBaseUser.prepareUserData();
     }
 
     @Test

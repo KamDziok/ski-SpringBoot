@@ -2,11 +2,13 @@ package pl.ski.transaction;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import pl.ski.offer_ski.OfferSki;
 import pl.ski.price.Price;
 import pl.ski.price.PriceRepository;
 
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 @RestController
@@ -33,6 +35,27 @@ public class TransactionController {
             }
         });
         return result;
+    }
+
+    @GetMapping("/company/{companyId}")
+    private List<Transaction> getAllCompanyTransaction(@PathVariable Long companyId){
+        List<Transaction> transactionList = (List<Transaction>) transactionRepository.findAll();
+        List<OfferSki> tmpOfferSki = new LinkedList<>();
+        List<Transaction> result = new ArrayList<>();
+        transactionList.forEach(transaction -> {
+            transaction.getOfferSkiList().forEach(offerSki -> {
+                if(offerSki.getCompany().getId().intValue() == companyId.intValue()){
+                    tmpOfferSki.add(offerSki);
+                }
+            });
+            if(!tmpOfferSki.isEmpty()){
+                transaction.setOfferSkiList(new ArrayList<>(tmpOfferSki));
+                result.add(transaction);
+            }
+            tmpOfferSki.clear();
+        });
+        return result;
+//        return transactionList;
     }
 
     @PostMapping

@@ -34,7 +34,7 @@ public class OfferSkiController {
         List<OfferSki> offerSkiList = (List<OfferSki>) offerSkiRepository.findAll();
         List<OfferSki> result = new ArrayList<>();
         offerSkiList.forEach(offerSki -> {
-            if(offerSki.getCompany().getId().intValue() != id.intValue()){
+            if(offerSki.getCompany().getId().intValue() == id.intValue()){
                 result.add(offerSki);
             }
         });
@@ -66,32 +66,56 @@ public class OfferSkiController {
             e.printStackTrace();
             return result;
         }
-        List<Transaction> transactionList = transactionRepository.findAllByStopTransactionAfter(date);
+        List<Transaction> transactionList = transactionRepository
+                .findAllByStartTransactionBetweenAndStartTransactionBetween(beginDate, endDate, beginDate, endDate);
+        System.out.println(transactionList.size());
         List<OfferSki> tmp = offerSkiRepository
-//                .findAllByStartOfferGreaterThanAndStopOfferLessThanOrStopOffer(beginDate, endDate, null);
-//                .findAllByStartOfferGreaterThanAndStopOfferLessThanOrStopOfferEquals(beginDate, endDate, null);
-//                .findAllByStartOfferAfterAndStopOfferBefore(beginDate, endDate);
                 .findAllByStartOfferAfterAndStopOfferBeforeOrStopOfferIsNull(beginDate, endDate);
-        result = tmp;
-        List<OfferSki> finalResult = result;
-        tmp.forEach(offerSki -> {
-            transactionList.forEach(transaction -> {
-                if(transaction.getOfferSkiList().contains(offerSki)){
-                    if(offerSki.getStartOffer().compareTo(transaction.getStopTransaction()) > 0){
-                        if(offerSki.getStopOffer().compareTo(transaction.getStartTransaction()) < 0){
-
-                        } else {
-                            offerSki.setQuantity(offerSki.getQuantity() - transaction.getCountOfferSki(offerSki));
-                        }
-                    } else {
-                        offerSki.setQuantity(offerSki.getQuantity() - transaction.getCountOfferSki(offerSki));
-                    }
+        List<OfferSki> finalResult = new ArrayList<>();
+        if(!transactionList.isEmpty()) {
+            tmp.forEach(offerSki -> {
+                transactionList.forEach(transaction -> {
+                    offerSki.setQuantity(offerSki.getQuantity() - transaction.getCountOfferSki(offerSki));
+                });
+                if(offerSki.getQuantity() > 0){
+                    finalResult.add(offerSki);
                 }
             });
-            if(offerSki.getQuantity() > 0){
-                finalResult.add(offerSki);
-            }
-        });
+        }
+        return finalResult;
+    }
+
+    @GetMapping("/start-date/{begin}/stop-date/{end}/city/{city}")
+    List<OfferSki> getOfferSkiActiveAndBeetwenDateAndCity(@PathVariable String begin, @PathVariable String end, @PathVariable String city) {
+        Date date = new Date();
+        Date beginDate = null;
+        Date endDate = null;
+        List<OfferSki> result = new ArrayList<OfferSki>();
+        try {
+            beginDate = new SimpleDateFormat("dd-MM-yyyy").parse(begin);
+            endDate = new SimpleDateFormat("dd-MM-yyyy").parse(end);
+        } catch (ParseException e) {
+            e.printStackTrace();
+            return result;
+        }
+        List<Transaction> transactionList = transactionRepository
+                .findAllByStartTransactionBetweenAndStartTransactionBetween(beginDate, endDate, beginDate, endDate);
+        System.out.println(transactionList.size());
+        List<OfferSki> tmp = offerSkiRepository
+                .findAllByCityAndStartOfferAfterAndStopOfferBeforeOrStopOfferIsNull(city, beginDate, endDate);
+        List<OfferSki> finalResult = new ArrayList<>();
+        if(!transactionList.isEmpty()) {
+            tmp.forEach(offerSki -> {
+                transactionList.forEach(transaction -> {
+                    offerSki.setQuantity(offerSki.getQuantity() - transaction.getCountOfferSki(offerSki));
+                });
+                if(offerSki.getQuantity() > 0){
+                    finalResult.add(offerSki);
+                }
+            });
+        } else {
+            return tmp;
+        }
         return finalResult;
     }
 

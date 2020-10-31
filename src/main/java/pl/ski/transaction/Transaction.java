@@ -107,10 +107,12 @@ public class Transaction {
     public int getCountOfferSki(OfferSki offerSki){
         AtomicInteger counter = new AtomicInteger(0);
         this.offerSkiList.forEach(offerSki1 -> {
-            if(offerSki1.getId().intValue() == offerSki.getId().intValue()){
-                counter.addAndGet(1);
+            if(offerSki1.isEquality(offerSki)){
+                counter.set(counter.get() + 1);
             }
         });
         return counter.get();
     }
+
+
 }

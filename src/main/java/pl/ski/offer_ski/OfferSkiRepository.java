@@ -12,4 +12,5 @@ public interface OfferSkiRepository extends PagingAndSortingRepository<OfferSki,
     List<OfferSki> findAllByStartOfferGreaterThanAndStopOfferLessThanOrStopOfferEquals(Date startOffer, Date stopOffer, Date nullDate);
     List<OfferSki> findAllByStartOfferAfterAndStopOfferBeforeOrStopOfferIsNull(Date startOffer, Date stopOffer);
     List<OfferSki> findAllByStartOfferAfterAndStopOfferBefore(Date startOffer, Date stopOffer);
+    List<OfferSki> findAllByCityAndStartOfferAfterAndStopOfferBeforeOrStopOfferIsNull(String city, Date startOffer, Date stopOffer);
 }

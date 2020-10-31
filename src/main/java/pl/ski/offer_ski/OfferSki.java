@@ -126,4 +126,8 @@ public class OfferSki {
     public void setSki(Ski ski) {
         this.ski = ski;
     }
+
+    public boolean isEquality(OfferSki offerSki){
+        return this.id == offerSki.getId();
+    }
 }
