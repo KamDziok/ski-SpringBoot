@@ -1,10 +1,10 @@
 package pl.ski.offer_ski;
 
 import pl.ski.company.Company;
-import pl.ski.price.Price;
+//import pl.ski.price.Price;
 import pl.ski.ski.Ski;
 import pl.ski.transaction.Transaction;
-import pl.ski.unit.Unit;
+//import pl.ski.unit.Unit;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -15,7 +15,7 @@ import java.util.List;
 public class OfferSki {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy=GenerationType.AUTO)
     private Long id;
 
     @NotNull
@@ -33,33 +33,38 @@ public class OfferSki {
     @ManyToOne
     private Company company;
 
+//    @NotNull
+//    @ManyToOne
+//    private Price price;
+
     @NotNull
-    @ManyToOne
-    private Price price;
+    private double priceForDay;
 
     @NotNull
     @ManyToOne
     private Ski ski;
 
+    private List<String> pictures;
+
     public OfferSki() {
     }
 
-    public OfferSki(@NotNull String city, @NotNull Date startOffer, @NotNull int quantity, @NotNull Company company, @NotNull Price price, @NotNull Ski ski) {
+    public OfferSki(@NotNull String city, @NotNull Date startOffer, @NotNull int quantity, @NotNull Company company, @NotNull double priceForDay, @NotNull Ski ski) {
         this.city = city;
         this.startOffer = startOffer;
         this.quantity = quantity;
         this.company = company;
-        this.price = price;
+        this.priceForDay = priceForDay;
         this.ski = ski;
     }
 
-    public OfferSki(@NotNull String city, @NotNull Date startOffer, Date stopOffer, @NotNull int quantity, @NotNull Company company, @NotNull Price price, @NotNull Ski ski) {
+    public OfferSki(@NotNull String city, @NotNull Date startOffer, Date stopOffer, @NotNull int quantity, @NotNull Company company, @NotNull double priceForDay, @NotNull Ski ski) {
         this.city = city;
         this.startOffer = startOffer;
         this.stopOffer = stopOffer;
         this.quantity = quantity;
         this.company = company;
-        this.price = price;
+        this.priceForDay = priceForDay;
         this.ski = ski;
     }
 
@@ -111,12 +116,21 @@ public class OfferSki {
         this.company = company;
     }
 
-    public Price getPrice() {
-        return price;
+//    public Price getPrice() {
+//        return price;
+//    }
+//
+//    public void setPrice(Price price) {
+//        this.price = price;
+//    }
+
+
+    public double getPriceForDay() {
+        return priceForDay;
     }
 
-    public void setPrice(Price price) {
-        this.price = price;
+    public void setPriceForDay(double priceForDay) {
+        this.priceForDay = priceForDay;
     }
 
     public Ski getSki() {
@@ -129,5 +143,13 @@ public class OfferSki {
 
     public boolean isEquality(OfferSki offerSki){
         return this.id == offerSki.getId();
+    }
+
+    public List<String> getPictures() {
+        return pictures;
+    }
+
+    public void setPictures(List<String> pictures) {
+        this.pictures = pictures;
     }
 }

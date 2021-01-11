@@ -10,7 +10,7 @@ import java.util.List;
 public class Producer {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy=GenerationType.AUTO)
     private Long id;
 
     @NotNull

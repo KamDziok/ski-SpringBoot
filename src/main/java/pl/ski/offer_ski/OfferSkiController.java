@@ -41,6 +41,19 @@ public class OfferSkiController {
         return result;
     }
 
+    @GetMapping("/company/{id}/active")
+    List<OfferSki> getOfferSkiCompanyActive(@PathVariable Long id){
+        Date date = new Date();
+        List<OfferSki> offerSkiList = (List<OfferSki>) offerSkiRepository.findAllByStartOfferGreaterThanAndStopOfferLessThanOrStopOffer(date, date, null);
+        List<OfferSki> result = new ArrayList<>();
+        offerSkiList.forEach(offerSki -> {
+            if(offerSki.getCompany().getId().intValue() == id.intValue()){
+                result.add(offerSki);
+            }
+        });
+        return result;
+    }
+
     @GetMapping("/{city}/{date}")
     List<OfferSki> getOfferSkiInCityAndDate(@PathVariable String city, @PathVariable String date) throws ParseException {
         return (List<OfferSki>) offerSkiRepository.findAllByCityAndStartOfferLessThanAndStopOfferGreaterThan(city, (Date) new SimpleDateFormat("dd-MM-yyyy").parse(date), (Date) new SimpleDateFormat("dd-MM-yyyy").parse(date));

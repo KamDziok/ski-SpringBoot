@@ -13,7 +13,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class Transaction {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy=GenerationType.AUTO)
     private Long id;
 
     @NotNull

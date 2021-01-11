@@ -2,10 +2,7 @@ package pl.ski.company;
 
 import pl.ski.offer_ski.OfferSki;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.List;
 
@@ -13,7 +10,7 @@ import java.util.List;
 public class Company {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy= GenerationType.AUTO)
     private Long id;
 
     @NotNull
@@ -23,6 +20,8 @@ public class Company {
     private Boolean active;
 
     private String description;
+
+    private String profilePicture;
 
 //    @OneToMany
 //    private List<OfferSki> offerSkiList;
@@ -71,5 +70,13 @@ public class Company {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public String getProfilePicture() {
+        return profilePicture;
+    }
+
+    public void setProfilePicture(String profilePicture) {
+        this.profilePicture = profilePicture;
     }
 }
