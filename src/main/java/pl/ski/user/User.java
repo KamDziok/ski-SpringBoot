@@ -1,11 +1,8 @@
 package pl.ski.user;
 
 import pl.ski.company.Company;
-import pl.ski.transaction.Transaction;
-
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import java.util.List;
 
 @Entity
 public class User {

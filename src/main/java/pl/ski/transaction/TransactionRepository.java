@@ -7,8 +7,6 @@ import java.util.List;
 
 
 public interface TransactionRepository extends PagingAndSortingRepository<Transaction, Long> {
-    List<Transaction> findAllByStopTransactionLessThan(Date date);
-    List<Transaction> findAllByStopTransactionAfter(Date date);
     List<Transaction> findAllByStartTransactionBetweenAndStartTransactionBetween(
             Date startBegin, Date startEnd,
             Date stopBegin, Date stopEnd

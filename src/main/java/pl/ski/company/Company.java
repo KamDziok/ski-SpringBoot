@@ -1,10 +1,7 @@
 package pl.ski.company;
 
-import pl.ski.offer_ski.OfferSki;
-
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import java.util.List;
 
 @Entity
 public class Company {
@@ -22,9 +19,6 @@ public class Company {
     private String description;
 
     private String profilePicture;
-
-//    @OneToMany
-//    private List<OfferSki> offerSkiList;
 
     public Company() {
     }

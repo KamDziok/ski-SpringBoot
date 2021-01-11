@@ -1,11 +1,7 @@
 package pl.ski.offer_ski;
 
 import pl.ski.company.Company;
-//import pl.ski.price.Price;
 import pl.ski.ski.Ski;
-import pl.ski.transaction.Transaction;
-//import pl.ski.unit.Unit;
-
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.Date;
@@ -32,10 +28,6 @@ public class OfferSki {
     @NotNull
     @ManyToOne
     private Company company;
-
-//    @NotNull
-//    @ManyToOne
-//    private Price price;
 
     @NotNull
     private double priceForDay;
@@ -116,15 +108,6 @@ public class OfferSki {
         this.company = company;
     }
 
-//    public Price getPrice() {
-//        return price;
-//    }
-//
-//    public void setPrice(Price price) {
-//        this.price = price;
-//    }
-
-
     public double getPriceForDay() {
         return priceForDay;
     }
@@ -141,15 +124,15 @@ public class OfferSki {
         this.ski = ski;
     }
 
-    public boolean isEquality(OfferSki offerSki){
-        return this.id == offerSki.getId();
-    }
-
     public List<String> getPictures() {
         return pictures;
     }
 
     public void setPictures(List<String> pictures) {
         this.pictures = pictures;
+    }
+
+    public boolean isEquality(OfferSki offerSki){
+        return this.id == offerSki.getId();
     }
 }

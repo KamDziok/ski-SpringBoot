@@ -1,10 +1,7 @@
 package pl.ski.producer;
 
-import pl.ski.ski.Ski;
-
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import java.util.List;
 
 @Entity
 public class Producer {
@@ -15,9 +12,6 @@ public class Producer {
 
     @NotNull
     private String name;
-
-//    @ManyToOne
-//    private List<Ski> skiList;
 
     public Producer() {
     }
@@ -41,12 +35,4 @@ public class Producer {
     public void setName(String name) {
         this.name = name;
     }
-
-//    public List<Ski> getSkiList() {
-//        return skiList;
-//    }
-//
-//    public void setSkiList(List<Ski> skiList) {
-//        this.skiList = skiList;
-//    }
 }

@@ -1,4 +1,4 @@
-package pl.ski.static_;
+package pl.ski.static_values;
 
 public class ServerPHPToImg {
     private static final String DOMAIN = "localhost";

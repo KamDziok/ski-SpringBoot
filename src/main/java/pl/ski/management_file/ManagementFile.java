@@ -1,6 +1,6 @@
 package pl.ski.management_file;
 
-import pl.ski.static_.ServerPHPToImg;
+import pl.ski.static_values.ServerPHPToImg;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -29,10 +29,6 @@ public class ManagementFile {
     private static boolean isFile(String path, String nameFile, String extensionFile){
         return Files.exists(new File(fullPathFile(path, nameFile, extensionFile)).toPath());
     }
-
-//    public static boolean isFileOrDirectory(String path, String nameFile, String extensionFile){
-//        return Files.exists(new File(path + "/" + nameFile).toPath());
-//    }
 
     private static boolean createDirectory(String path, String nameDirectory){
         if(isDirectory(path, nameDirectory)){

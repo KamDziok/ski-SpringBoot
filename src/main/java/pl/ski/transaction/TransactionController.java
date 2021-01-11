@@ -3,10 +3,6 @@ package pl.ski.transaction;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import pl.ski.offer_ski.OfferSki;
-//import pl.ski.price.Price;
-//import pl.ski.price.PriceRepository;
-
-
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
