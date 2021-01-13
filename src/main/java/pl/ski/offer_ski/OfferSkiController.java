@@ -3,7 +3,7 @@ package pl.ski.offer_ski;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import pl.ski.transaction.Transaction;
-import pl.ski.transaction.TransactionRepository;
+import pl.ski.transaction.ITransactionRepository;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -16,22 +16,18 @@ import java.util.List;
 @CrossOrigin
 public class OfferSkiController {
     @Autowired
-    private OfferSkiRepository offerSkiRepository;
+    private IOfferSkiRepository iOfferSkiRepository;
     @Autowired
-    private TransactionRepository transactionRepository;
-
-    public void setOfferSkiRepository(OfferSkiRepository offerSkiRepository) {
-        this.offerSkiRepository = offerSkiRepository;
-    }
+    private ITransactionRepository iTransactionRepository;
 
     @GetMapping
     List<OfferSki> getAllOfferSki(){
-        return (List<OfferSki>) offerSkiRepository.findAll();
+        return (List<OfferSki>) iOfferSkiRepository.findAll();
     }
 
     @GetMapping("/company/{id}")
     List<OfferSki> getOfferSkiCompany(@PathVariable Long id){
-        List<OfferSki> offerSkiList = (List<OfferSki>) offerSkiRepository.findAll();
+        List<OfferSki> offerSkiList = (List<OfferSki>) iOfferSkiRepository.findAll();
         List<OfferSki> result = new ArrayList<>();
         offerSkiList.forEach(offerSki -> {
             if(offerSki.getCompany().getId().intValue() == id.intValue()){
@@ -44,7 +40,7 @@ public class OfferSkiController {
     @GetMapping("/company/{id}/active")
     List<OfferSki> getOfferSkiCompanyActive(@PathVariable Long id){
         Date date = new Date();
-        List<OfferSki> offerSkiList = (List<OfferSki>) offerSkiRepository.findAllByStartOfferGreaterThanAndStopOfferLessThanOrStopOffer(date, date, null);
+        List<OfferSki> offerSkiList = (List<OfferSki>) iOfferSkiRepository.findAllByStartOfferGreaterThanAndStopOfferLessThanOrStopOffer(date, date, null);
         List<OfferSki> result = new ArrayList<>();
         offerSkiList.forEach(offerSki -> {
             if(offerSki.getCompany().getId().intValue() == id.intValue()){
@@ -56,37 +52,23 @@ public class OfferSkiController {
 
     @GetMapping("/{city}/{date}")
     List<OfferSki> getOfferSkiInCityAndDate(@PathVariable String city, @PathVariable String date) throws ParseException {
-        return (List<OfferSki>) offerSkiRepository.findAllByCityAndStartOfferLessThanAndStopOfferGreaterThan(city, (Date) new SimpleDateFormat("dd-MM-yyyy").parse(date), (Date) new SimpleDateFormat("dd-MM-yyyy").parse(date));
+        return (List<OfferSki>) iOfferSkiRepository.findAllByCityAndStartOfferLessThanAndStopOfferGreaterThan(city, (Date) new SimpleDateFormat("dd-MM-yyyy").parse(date), (Date) new SimpleDateFormat("dd-MM-yyyy").parse(date));
     }
 
     @GetMapping("/sctive")
     List<OfferSki> getOfferSkiActive() {
         Date date = new Date();
-        return offerSkiRepository.findAllByStartOfferGreaterThanAndStopOfferLessThanOrStopOffer(date, date, null);
+        return iOfferSkiRepository.findAllByStartOfferGreaterThanAndStopOfferLessThanOrStopOffer(date, date, null);
     }
 
-//    @CrossOrigin(origins = "http://localhost:8081/api/transaction")
-    @GetMapping("/start-date/{begin}/stop-date/{end}")
-    List<OfferSki> getOfferSkiActiveAndBeetwenDate(@PathVariable String begin, @PathVariable String end) {
-        Date date = new Date();
-        Date beginDate = null;
-        Date endDate = null;
-        List<OfferSki> result = new ArrayList<OfferSki>();
-        try {
-            beginDate = new SimpleDateFormat("dd-MM-yyyy").parse(begin);
-            endDate = new SimpleDateFormat("dd-MM-yyyy").parse(end);
-        } catch (ParseException e) {
-            e.printStackTrace();
-            return result;
-        }
-        List<Transaction> transactionList = transactionRepository
-                .findAllByStartTransactionBetweenAndStartTransactionBetween(beginDate, endDate, beginDate, endDate);
-        System.out.println(transactionList.size());
-        List<OfferSki> tmp = offerSkiRepository
-                .findAllByStartOfferAfterAndStopOfferBeforeOrStopOfferIsNull(beginDate, endDate);
+    List<Transaction> getAllransactionBeetwenDate(Date begin, Date end) {
+        return iTransactionRepository.findAllByStartTransactionBetweenAndStartTransactionBetween(begin, end, begin, end);
+    }
+
+    List<OfferSki> countReadyOfferSki(List<OfferSki> offerSkiList, List<Transaction> transactionList){
         List<OfferSki> finalResult = new ArrayList<>();
         if(!transactionList.isEmpty()) {
-            tmp.forEach(offerSki -> {
+            offerSkiList.forEach(offerSki -> {
                 transactionList.forEach(transaction -> {
                     offerSki.setQuantity(offerSki.getQuantity() - transaction.getCountOfferSki(offerSki));
                 });
@@ -94,6 +76,8 @@ public class OfferSkiController {
                     finalResult.add(offerSki);
                 }
             });
+        } else {
+            return offerSkiList;
         }
         return finalResult;
     }
@@ -111,31 +95,16 @@ public class OfferSkiController {
             e.printStackTrace();
             return result;
         }
-        List<Transaction> transactionList = transactionRepository
-                .findAllByStartTransactionBetweenAndStartTransactionBetween(beginDate, endDate, beginDate, endDate);
-        System.out.println(transactionList.size());
-        List<OfferSki> tmp = offerSkiRepository
+        List<Transaction> transactionList = getAllransactionBeetwenDate(beginDate, endDate);
+        List<OfferSki> offerSkiList = iOfferSkiRepository
                 .findAllByCityAndStartOfferAfterAndStopOfferBeforeOrStopOfferIsNull(city, beginDate, endDate);
-        List<OfferSki> finalResult = new ArrayList<>();
-        if(!transactionList.isEmpty()) {
-            tmp.forEach(offerSki -> {
-                transactionList.forEach(transaction -> {
-                    offerSki.setQuantity(offerSki.getQuantity() - transaction.getCountOfferSki(offerSki));
-                });
-                if(offerSki.getQuantity() > 0){
-                    finalResult.add(offerSki);
-                }
-            });
-        } else {
-            return tmp;
-        }
-        return finalResult;
+        return countReadyOfferSki(offerSkiList, transactionList);
     }
 
     @GetMapping("/{city}")
     List<OfferSki> getOfferSkiInCity(@PathVariable String city) {
         List<OfferSki> result = new ArrayList<>();
-        List<OfferSki> offerSkiList = (List<OfferSki>) offerSkiRepository.findByCity(city);
+        List<OfferSki> offerSkiList = (List<OfferSki>) iOfferSkiRepository.findByCity(city);
         Date now = new Date();
         offerSkiList.forEach(offerSki -> {
             if(offerSki.getStopOffer() != null){
@@ -151,16 +120,16 @@ public class OfferSkiController {
 
     @PostMapping
     private OfferSki addOfferSki(@RequestBody OfferSki offerSki){
-        return offerSkiRepository.save(offerSki);
+        return iOfferSkiRepository.save(offerSki);
     }
 
     @PutMapping
-    private OfferSki updateOfferSki(@RequestBody OfferSki offerSki){  return offerSkiRepository.save(offerSki);
+    private OfferSki updateOfferSki(@RequestBody OfferSki offerSki){  return iOfferSkiRepository.save(offerSki);
     }
 
     @DeleteMapping
     private OfferSki deleteOfferSki(@RequestBody OfferSki offerSki){
-        offerSkiRepository.delete(offerSki);
+        iOfferSkiRepository.delete(offerSki);
         return offerSki;
     }
 }

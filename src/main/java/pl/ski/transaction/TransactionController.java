@@ -14,16 +14,16 @@ import java.util.List;
 public class TransactionController {
 
     @Autowired
-    private TransactionRepository transactionRepository;
+    private ITransactionRepository ITransactionRepository;
 
     @GetMapping
     private List<Transaction> getAllTransaction(){
-        return (List<Transaction>) transactionRepository.findAll();
+        return (List<Transaction>) ITransactionRepository.findAll();
     }
 
     @GetMapping("/user/{id}")
     private List<Transaction> getAllUserTransaction(@PathVariable Long id){
-        List<Transaction> transactionList = (List<Transaction>) transactionRepository.findAll();
+        List<Transaction> transactionList = (List<Transaction>) ITransactionRepository.findAll();
         List<Transaction> result = new ArrayList<>();
         transactionList.forEach(transaction -> {
             if(transaction.getUser().getId().intValue() == id.intValue()){
@@ -35,7 +35,7 @@ public class TransactionController {
 
     @GetMapping("/company/{companyId}")
     private List<Transaction> getAllCompanyTransaction(@PathVariable Long companyId){
-        List<Transaction> transactionList = (List<Transaction>) transactionRepository.findAll();
+        List<Transaction> transactionList = (List<Transaction>) ITransactionRepository.findAll();
         List<OfferSki> tmpOfferSki = new LinkedList<>();
         List<Transaction> result = new ArrayList<>();
         transactionList.forEach(transaction -> {
@@ -56,17 +56,17 @@ public class TransactionController {
 
     @PostMapping
     private Transaction addTransaction(@RequestBody Transaction transaction){
-        return transactionRepository.save(transaction);
+        return ITransactionRepository.save(transaction);
     }
 
     @PutMapping
     private Transaction updateTransaction(@RequestBody Transaction transaction){
-        return transactionRepository.save(transaction);
+        return ITransactionRepository.save(transaction);
     }
 
     @DeleteMapping
     private Transaction deleteTransaction(@RequestBody Transaction transaction){
-        transactionRepository.delete(transaction);
+        ITransactionRepository.delete(transaction);
         return transaction;
     }
 

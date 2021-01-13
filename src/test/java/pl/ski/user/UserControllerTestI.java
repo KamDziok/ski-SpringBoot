@@ -2,9 +2,7 @@ package pl.ski.user;
 
 import org.junit.jupiter.api.Test;
 import pl.ski.dataBase.DataBaseUser;
-import pl.ski.static_values.Permission;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -33,11 +31,11 @@ public class UserControllerTestI {
     @Test
     void getAllUserTest(){
         List<User> users = prepareUserData();
-        UserRepository userRepository = mock(UserRepository.class);
+        IUserRepository IUserRepository = mock(IUserRepository.class);
         UserController userController = new UserController();
-        userController.setUserRepository(userRepository);
+        userController.setIUserRepository(IUserRepository);
 
-        when(userRepository.findAll()).thenReturn(users);
+        when(IUserRepository.findAll()).thenReturn(users);
 
         List<User> userList = userController.getAllUser();
 
@@ -48,11 +46,11 @@ public class UserControllerTestI {
     void getUserTestTrue(){
         List<User> users = prepareUserData();
         User user = users.get(0);
-        UserRepository userRepository = mock(UserRepository.class);
+        IUserRepository IUserRepository = mock(IUserRepository.class);
         UserController userController = new UserController();
-        userController.setUserRepository(userRepository);
+        userController.setIUserRepository(IUserRepository);
 
-        when(userRepository.findByeMailAndPassword("test@1", "123")).thenReturn(user);
+        when(IUserRepository.findByeMailAndPassword("test@1", "123")).thenReturn(user);
 
         User user1 = userController.getUserByeMailAndPassword("test@1", "123");
 
@@ -63,11 +61,11 @@ public class UserControllerTestI {
     void getUserTestFalsePassword(){
         List<User> users = prepareUserData();
         User user = users.get(0);
-        UserRepository userRepository = mock(UserRepository.class);
+        IUserRepository IUserRepository = mock(IUserRepository.class);
         UserController userController = new UserController();
-        userController.setUserRepository(userRepository);
+        userController.setIUserRepository(IUserRepository);
 
-        when(userRepository.findByeMailAndPassword("test@1", "123")).thenReturn(user);
+        when(IUserRepository.findByeMailAndPassword("test@1", "123")).thenReturn(user);
 
         User user1 = userController.getUserByeMailAndPassword("test@1", "123456");
 
@@ -78,11 +76,11 @@ public class UserControllerTestI {
     void getUserTestFalseEmail(){
         List<User> users = prepareUserData();
         User user = users.get(0);
-        UserRepository userRepository = mock(UserRepository.class);
+        IUserRepository IUserRepository = mock(IUserRepository.class);
         UserController userController = new UserController();
-        userController.setUserRepository(userRepository);
+        userController.setIUserRepository(IUserRepository);
 
-        when(userRepository.findByeMailAndPassword("test@1", "123")).thenReturn(user);
+        when(IUserRepository.findByeMailAndPassword("test@1", "123")).thenReturn(user);
 
         User user1 = userController.getUserByeMailAndPassword("test1", "123");
 
@@ -93,11 +91,11 @@ public class UserControllerTestI {
     void getUserTestFalse(){
         List<User> users = prepareUserData();
         User user = users.get(0);
-        UserRepository userRepository = mock(UserRepository.class);
+        IUserRepository IUserRepository = mock(IUserRepository.class);
         UserController userController = new UserController();
-        userController.setUserRepository(userRepository);
+        userController.setIUserRepository(IUserRepository);
 
-        when(userRepository.findByeMailAndPassword("test@1", "123")).thenReturn(user);
+        when(IUserRepository.findByeMailAndPassword("test@1", "123")).thenReturn(user);
 
         User user1 = userController.getUserByeMailAndPassword("test1", "123456");
 

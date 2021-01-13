@@ -13,26 +13,26 @@ import java.util.List;
 public class ProducerController {
 
     @Autowired
-    private ProducerRepository producerRepository;
+    private IProducerRepository IProducerRepository;
 
     @GetMapping
     private List<Producer> getAllProducer(){
-        return (List<Producer>) producerRepository.findAll();
+        return (List<Producer>) IProducerRepository.findAll();
     }
 
     @PostMapping
     private Producer addProducer(@RequestBody Producer producer){
-        return producerRepository.save(producer);
+        return IProducerRepository.save(producer);
     }
 
     @PutMapping
     private Producer updateProducer(@RequestBody Producer producer){
-        return producerRepository.save(producer);
+        return IProducerRepository.save(producer);
     }
 
     @DeleteMapping
     private Producer deleteProducer(@RequestBody Producer producer){
-        producerRepository.delete(producer);
+        IProducerRepository.delete(producer);
         return producer;
     }
 }

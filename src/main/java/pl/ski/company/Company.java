@@ -1,5 +1,6 @@
 package pl.ski.company;
 
+import pl.ski.picture.Picture;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
@@ -7,7 +8,7 @@ import javax.validation.constraints.NotNull;
 public class Company {
 
     @Id
-    @GeneratedValue(strategy= GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     @NotNull
@@ -18,7 +19,8 @@ public class Company {
 
     private String description;
 
-    private String profilePicture;
+    @ManyToOne
+    private Picture profilePicture;
 
     public Company() {
     }
@@ -66,11 +68,11 @@ public class Company {
         this.description = description;
     }
 
-    public String getProfilePicture() {
+    public Picture getProfilePicture() {
         return profilePicture;
     }
 
-    public void setProfilePicture(String profilePicture) {
+    public void setProfilePicture(Picture profilePicture) {
         this.profilePicture = profilePicture;
     }
 }

@@ -2,7 +2,6 @@ package pl.ski.user;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -11,55 +10,45 @@ import java.util.List;
 public class UserController {
 
     @Autowired
-    private UserRepository userRepository;
+    private IUserRepository iUserRepository;
 
-    public void setUserRepository(UserRepository userRepository) {
-        this.userRepository = userRepository;
+    public void setIUserRepository(IUserRepository IUserRepository) {
+        this.iUserRepository = IUserRepository;
     }
 
     @GetMapping
     List<User> getAllUser(){
-        return (List<User>) userRepository.findAll();
+        return (List<User>) iUserRepository.findAll();
     }
 
     @GetMapping("/user/{id}")
     List<User> getAllUserWithOutCurrentUser(@PathVariable("id") Long id){
-        List<User> userListAll = (List<User>) userRepository.findAll();
-        List<User> result = new ArrayList<>();
-        userListAll.forEach(user -> {
-            if(user.getId().intValue() != id.intValue()){
-                result.add(user);
-            }
-        });
-        return result;
+        return iUserRepository.findAllByIdNot(id);
     }
 
     @GetMapping("/email/{email}/password/{password}")
     User getUserByeMailAndPassword(@PathVariable("email") String eMaile, @PathVariable("password") String password){
-        return userRepository.findByeMailAndPassword(eMaile, password);
+        return iUserRepository.findByeMailAndPassword(eMaile, password);
     }
 
     @GetMapping("/email/{email}")
     Boolean isUserByEMail(@PathVariable("email") String eMaile){
-        if(!userRepository.findByeMail(eMaile).equals(null)) {
-            return true;
-        }
-        return false;
+        return iUserRepository.existsUserByeMail(eMaile);
     }
 
     @PostMapping
     private User addUser(@RequestBody User user){
-        return userRepository.save(user);
+        return iUserRepository.save(user);
     }
 
     @PutMapping
     private User updateUser(@RequestBody User user){
-        return userRepository.save(user);
+        return iUserRepository.save(user);
     }
 
     @DeleteMapping
     private User deleteUser(@RequestBody User user){
-        userRepository.delete(user);
+        iUserRepository.delete(user);
         return user;
     }
 

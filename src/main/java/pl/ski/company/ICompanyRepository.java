@@ -4,6 +4,6 @@ import org.springframework.data.repository.PagingAndSortingRepository;
 
 import java.util.Optional;
 
-public interface CompanyRepository extends PagingAndSortingRepository<Company, Long> {
+public interface ICompanyRepository extends PagingAndSortingRepository<Company, Long> {
     Optional<Company> findById(Long id);
 }

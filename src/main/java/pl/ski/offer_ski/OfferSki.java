@@ -1,9 +1,11 @@
 package pl.ski.offer_ski;
 
 import pl.ski.company.Company;
+import pl.ski.picture.Picture;
 import pl.ski.ski.Ski;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -36,7 +38,8 @@ public class OfferSki {
     @ManyToOne
     private Ski ski;
 
-    private List<String> pictures;
+    @OneToMany
+    private List<Picture> pictures;
 
     public OfferSki() {
     }
@@ -124,11 +127,11 @@ public class OfferSki {
         this.ski = ski;
     }
 
-    public List<String> getPictures() {
+    public List<Picture> getPictures() {
         return pictures;
     }
 
-    public void setPictures(List<String> pictures) {
+    public void setPictures(List<Picture> pictures) {
         this.pictures = pictures;
     }
 
