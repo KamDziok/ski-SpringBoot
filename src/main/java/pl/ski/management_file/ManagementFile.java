@@ -2,42 +2,50 @@ package pl.ski.management_file;
 
 import pl.ski.static_values.ServerPHPToImg;
 
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.PrintWriter;
+import java.io.*;
 import java.nio.file.Files;
 
 public class ManagementFile {
 
-    private static String addToPath(String path, String upDirectory){
+    public static String addToPath(String path, String upDirectory){
+//        if(!ManagementFile.isDirectory(path, upDirectory)){
+//            ManagementFile.createDirectory(path, upDirectory);
+//        }
         return path + "\\" + upDirectory;
     }
 
-    private static String fullPathFile(String path, String nameFile, String extensionFile) {
+    public static String fullPathFile(String path, String nameFile, String extensionFile) {
         return path + "\\" + nameFile + "." + extensionFile;
     }
 
-    private static String fullPathDirectory(String path, String nameDirectory) {
+    public static String fullPathFile(String path, String nameFile) {
+        return path + "\\" + nameFile;
+    }
+
+    public static String fullPathDirectory(String path, String nameDirectory) {
         return path + "\\" + nameDirectory;
     }
 
-    private static boolean isDirectory(String path, String nameDirectory){
+    public static boolean isDirectory(String path, String nameDirectory){
         return Files.exists(new File(fullPathDirectory(path, nameDirectory)).toPath());
     }
 
-    private static boolean isFile(String path, String nameFile, String extensionFile){
+    public static boolean isFile(String path, String nameFile, String extensionFile){
         return Files.exists(new File(fullPathFile(path, nameFile, extensionFile)).toPath());
     }
 
-    private static boolean createDirectory(String path, String nameDirectory){
+    public static boolean isFile(String path, String nameFile){
+        return Files.exists(new File(fullPathFile(path, nameFile)).toPath());
+    }
+
+    public static boolean createDirectory(String path, String nameDirectory){
         if(isDirectory(path, nameDirectory)){
             return true;
         }
         return new File(fullPathDirectory(path, nameDirectory)).mkdir();
     }
 
-    private static boolean createFile(String path, String nameFile, String extensionFile){
+    public static boolean createFile(String path, String nameFile, String extensionFile){
         try {
             if(isFile(path, nameFile, extensionFile)){
                 return true;
@@ -49,7 +57,19 @@ public class ManagementFile {
         return false;
     }
 
-    private static boolean writeToFile(String path, String nameFile, String extensionFile, String text) {
+    public static boolean createFile(String path, String nameFile){
+        try {
+            if(isFile(path, nameFile)){
+                return true;
+            }
+            return new File(fullPathFile(path, nameFile)).createNewFile();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    public static boolean writeToFile(String path, String nameFile, String extensionFile, String text) {
         try {
             FileWriter fileWriter = new FileWriter(fullPathFile(path, nameFile, extensionFile));
             PrintWriter printWriter = new PrintWriter(fileWriter);
@@ -62,7 +82,22 @@ public class ManagementFile {
         return false;
     }
 
-    private static boolean runFileBAT(String path,String nameFile, String extensionFile){
+    public static boolean writeByte(byte[] bytes, File file) {
+        boolean result = false;
+        try {
+            OutputStream os = new FileOutputStream(file);
+            os.write(bytes);
+            os.close();
+            result = true;
+        }
+
+        catch (Exception e) {
+            System.out.println("Exception: " + e);
+        }
+        return result;
+    }
+
+    public static boolean runFileBAT(String path,String nameFile, String extensionFile){
         try {
             ProcessBuilder processBuilder = new ProcessBuilder(fullPathFile(path, nameFile, extensionFile));
             processBuilder.start();

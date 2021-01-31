@@ -12,7 +12,10 @@ public class ServerPHPToImg {
     public static final String MAIN_SERVER_PHP_DIRECTORY = "serverPHP";
     public static final String IMG_DIRECTORY = "img";
 
-    private static String mainDirectory = null;
+    public static final String TYPE_PICTURE_COMPANY = "company";
+    public static final String TYPE_PICTURE_OFFERSKI = "offerSki";
+
+    private static String mainDirectory = System.getProperty("user.dir");
 
     public static String getMainDirectory() {
         if(ServerPHPToImg.mainDirectory == null){

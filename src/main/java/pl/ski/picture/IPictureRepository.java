@@ -2,5 +2,5 @@ package pl.ski.picture;
 
 import org.springframework.data.repository.PagingAndSortingRepository;
 
-public interface IPicture extends PagingAndSortingRepository<Picture, Long> {
+public interface IPictureRepository extends PagingAndSortingRepository<Picture, Long> {
 }
