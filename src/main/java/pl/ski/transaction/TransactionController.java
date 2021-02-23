@@ -51,7 +51,6 @@ public class TransactionController {
             tmpOfferSki.clear();
         });
         return result;
-//        return transactionList;
     }
 
     @PostMapping

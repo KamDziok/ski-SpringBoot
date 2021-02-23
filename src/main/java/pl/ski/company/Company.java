@@ -17,6 +17,8 @@ public class Company {
     @NotNull
     private Boolean active;
 
+    @Lob
+    @Column(length = 2048)
     private String description;
 
     @ManyToOne

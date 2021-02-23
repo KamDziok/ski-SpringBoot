@@ -1,11 +1,8 @@
-package pl.ski.offerSki;
+package pl.ski.offer_ski;
 
 import org.junit.jupiter.api.Test;
 import pl.ski.dataBase.DataBaseOfferSki;
 import pl.ski.dataBase.DataBaseTransaction;
-import pl.ski.offer_ski.IOfferSkiRepository;
-import pl.ski.offer_ski.OfferSki;
-import pl.ski.offer_ski.OfferSkiController;
 import pl.ski.transaction.ITransactionRepository;
 
 import java.text.DateFormat;
@@ -19,7 +16,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-public class OfferSkiTestUnit {
+public class OfferSkiControllerTestUnit {
 
     static private Date createDate(int year, int month, int day){
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
@@ -46,10 +43,10 @@ public class OfferSkiTestUnit {
     static private IOfferSkiRepository prepareOfferSkiData(){
         IOfferSkiRepository iOfferSkiRepository = mock(IOfferSkiRepository.class);
         when(iOfferSkiRepository.findAllByStartOfferGreaterThanAndStopOfferLessThanOrStopOffer(
-                OfferSkiTestUnit.startDate(), OfferSkiTestUnit.stopDate(), null)
+                OfferSkiControllerTestUnit.startDate(), OfferSkiControllerTestUnit.stopDate(), null)
         ).thenReturn(DataBaseOfferSki.getAllBetweenDate());
         when(iOfferSkiRepository.findAllByCityLikeAndStartOfferBeforeAndStopOfferAfterOrCityLikeAndStartOfferBeforeAndStopOfferIsNull(
-                "Zakopane", OfferSkiTestUnit.startDate(), OfferSkiTestUnit.stopDate(), "Zakopane", OfferSkiTestUnit.startDate())
+                "Zakopane", OfferSkiControllerTestUnit.startDate(), OfferSkiControllerTestUnit.stopDate(), "Zakopane", OfferSkiControllerTestUnit.startDate())
         ).thenReturn(DataBaseOfferSki.getAllBetweenDateAndCityZakopane());
         return iOfferSkiRepository;
     }
@@ -57,15 +54,15 @@ public class OfferSkiTestUnit {
     static private ITransactionRepository prepareTransactionData() {
         ITransactionRepository iTransactionRepository = mock(ITransactionRepository.class);
         when(iTransactionRepository.findAllByStartTransactionBetweenAndStartTransactionBetween(
-                OfferSkiTestUnit.startDate(), OfferSkiTestUnit.stopDate(),
-                OfferSkiTestUnit.startDate(), OfferSkiTestUnit.stopDate()
+                OfferSkiControllerTestUnit.startDate(), OfferSkiControllerTestUnit.stopDate(),
+                OfferSkiControllerTestUnit.startDate(), OfferSkiControllerTestUnit.stopDate()
         )).thenReturn(DataBaseTransaction.getAllTransactionBetweenDate());
         return iTransactionRepository;
     }
 
     private static OfferSkiController prepareOfferSkiController(){
-        IOfferSkiRepository iOfferSkiRepository = OfferSkiTestUnit.prepareOfferSkiData();
-        ITransactionRepository iTransactionRepository = OfferSkiTestUnit.prepareTransactionData();
+        IOfferSkiRepository iOfferSkiRepository = OfferSkiControllerTestUnit.prepareOfferSkiData();
+        ITransactionRepository iTransactionRepository = OfferSkiControllerTestUnit.prepareTransactionData();
         OfferSkiController offerSkiController = new OfferSkiController();
         offerSkiController.setiOfferSkiRepository(iOfferSkiRepository);
         offerSkiController.setiTransactionRepository(iTransactionRepository);
@@ -73,8 +70,8 @@ public class OfferSkiTestUnit {
     }
 
     @Test
-    void countReadyOfferSkiTest(){
-        OfferSkiController offerSkiController = OfferSkiTestUnit.prepareOfferSkiController();
+    public void countReadyOfferSkiTest(){
+        OfferSkiController offerSkiController = OfferSkiControllerTestUnit.prepareOfferSkiController();
         List<OfferSki> offerSkiList = offerSkiController.countReadyOfferSki(
                 DataBaseOfferSki.getAllBetweenDateAndCityZakopane(), DataBaseTransaction.getAllTransactionBetweenDate());
         assertThat(offerSkiList, hasSize(3));
@@ -84,10 +81,10 @@ public class OfferSkiTestUnit {
     }
 
     @Test
-    void getOfferSkiActiveAndBetweenDateAndCityTest(){
-        OfferSkiController offerSkiController = OfferSkiTestUnit.prepareOfferSkiController();
+    public void getOfferSkiActiveAndBetweenDateAndCityTest(){
+        OfferSkiController offerSkiController = OfferSkiControllerTestUnit.prepareOfferSkiController();
         List<OfferSki> offerSkiList = offerSkiController.getOfferSkiActiveAndBetweenDateAndCity(
-                OfferSkiTestUnit.dateToString(OfferSkiTestUnit.startDate()), OfferSkiTestUnit.dateToString(OfferSkiTestUnit.stopDate()), "Zakopane");
+                OfferSkiControllerTestUnit.dateToString(OfferSkiControllerTestUnit.startDate()), OfferSkiControllerTestUnit.dateToString(OfferSkiControllerTestUnit.stopDate()), "Zakopane");
         assertThat(offerSkiList, hasSize(3));
         assertEquals(offerSkiList.get(0).getQuantity(), 2);
         assertEquals(offerSkiList.get(1).getQuantity(), 4);
